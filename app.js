@@ -12,29 +12,22 @@ const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
+const { prompts } = require("inquirer");
 
-const addEmployee = () => {
-  inquirer.prompt([
-    {
-      type: "list",
-      message: "Which type of employee information would you like to log?",
-      name: "role",
-      choices: [
-        "Manager",
-        "Intern",
-        "Engineer",
-        "I don't want to add any more employees",
-      ],
-    },
-  ]);
-};
-if (addEmployee.role === "Manager") {
-  inquirer.prompt(managerQuestions);
-} else if (addEmployee.role === "Intern") {
-  inquirer.prompt(internQuestions);
-} else if (addEmployee.role === "Engineer") {
-  inquirer.prompt(engineerQuestions);
-}
+const addEmployee = [
+  {
+    type: "list",
+    message: "Which type of employee information would you like to log?",
+    name: "role",
+    choices: [
+      "Manager",
+      "Intern",
+      "Engineer",
+      "I don't want to add any more employees",
+    ],
+  },
+];
+
 // else {
 //   writeFile();
 // }
@@ -47,7 +40,17 @@ function writeFile(fileName, data) {
 
 // function to initialize program
 function init() {
-  inquirer.prompt(addEmployee());
+  inquirer.prompt(addEmployee).then((data) => {
+    if (data.role === "Manager") {
+      console.log(data.role);
+      inquirer.prompt(managerQuestions);
+    } else if (data.role === "Intern") {
+      console.log(data);
+      inquirer.prompt(internQuestions);
+    } else if (data.role === "Engineer") {
+      inquirer.prompt(engineerQuestions);
+    } else console.log("Is this logging?");
+  });
 
   // .then((data) => {
   //   console.log("inside init", data);
