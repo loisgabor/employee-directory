@@ -1,17 +1,17 @@
-const Manager = require("./Manager");
-const Engineer = require("./Engineer");
-const Intern = require("./Intern");
+const Manager = require("./lib/Manager");
+const Engineer = require("./lib/Engineer");
+const Intern = require("./lib/Intern");
 const inquirer = require("inquirer");
-const internQuestions = require("./questions");
-const managerQuestions = require("./questions");
-const engineerQuestions = require("./questions");
+const internQuestions = require("./lib/questions");
+const managerQuestions = require("./lib/questions");
+const engineerQuestions = require("./lib/questions");
 const path = require("path");
 const fs = require("fs");
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
-const render = require("./htmlRenderer");
+const render = require("./lib/htmlRenderer");
 
 const addEmployee = () => {
   inquirer.prompt([
