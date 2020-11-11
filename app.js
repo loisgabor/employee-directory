@@ -2,9 +2,6 @@ const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 const inquirer = require("inquirer");
-// const internQuestions = require("./lib/questions");
-// const managerQuestions = require("./lib/questions");
-// const engineerQuestions = require("./lib/questions");
 const path = require("path");
 const fs = require("fs");
 
@@ -13,6 +10,8 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 const { prompts } = require("inquirer");
+
+const newTeam = [];
 const managerQuestions = [
   {
     type: "input",
@@ -31,8 +30,8 @@ const managerQuestions = [
   },
   {
     type: "input",
-    message: "What is their office number?",
-    name: "number",
+    message: "What is their office number",
+    name: "officeNumber",
   },
 ];
 
@@ -103,33 +102,54 @@ function writeFile(fileName, data) {
   console.log("indside writefile", data);
   return fs.writeFileSync(path.join(process.cwd(), fileName), data);
 }
-
+const expr = 0;
 // function to initialize program
 function init() {
-  inquirer
-    .prompt(addEmployee)
-    .then((data, res) => {
-      if (data.role === "Manager") {
-        inquirer.prompt(managerQuestions);
-      } else if (data.role === "Intern") {
-        inquirer.prompt(internQuestions);
-      } else if (data.role === "Engineer") {
-        inquirer.prompt(engineerQuestions);
-      } else console.log("Is this logging?");
-    })
-    .then((res) => {
-      writeFile();
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-
-  // .then((data) => {
-  //   console.log("inside init", data);
-  //   writeFile("READMEtest.md", generateMarkdown(data));
-  //   console.log("after writefile");
-  // });
+  inquirer.prompt(addEmployee).then((data) => {
+    if (data.role === "Manager") {
+      inquirer.prompt(managerQuestions).then((data) => {
+        const newManager = new Manager(
+          data.name,
+          data.id,
+          data.email,
+          data.officeNumber
+        );
+        newTeam.push(newManager);
+        init();
+      });
+    } else if (data.role === "Intern") {
+      inquirer.prompt(internQuestions).then((data) => {
+        const newIntern = new Intern(
+          data.name,
+          data.id,
+          data.email,
+          data.school
+        );
+        newTeam.push(newIntern);
+        init();
+      });
+    } else if (data.role === "Engineer") {
+      inquirer.prompt(engineerQuestions).then((data) => {
+        const newEngineer = new Engineer(
+          data.name,
+          data.id,
+          data.email,
+          data.github
+        );
+        newTeam.push(newEngineer);
+        init();
+      });
+    } else {
+      console.log(newTeam);
+    }
+  });
 }
+
+// .then((data) => {
+//   console.log("inside init", data);
+//   writeFile("READMEtest.md", generateMarkdown(data));
+//   console.log("after writefile");
+// });
 
 init();
 // Write code to use inquirer to gather information about the development team members,
@@ -154,3 +174,40 @@ init();
 // for further information. Be sure to test out each class and verify it generates an
 // object with the correct structure and methods. This structure will be crucial in order
 // for the provided `render` function to work! ```
+
+// function init(){
+//   function example() {
+//       console.log("I work");
+//       inquirer.prompt([
+
+//           {
+//             type: "input",
+//             message: "What is their name?",
+//             name: "name",
+//           },
+//           {
+//             type: "input",
+//             message: "What is their ID?",
+//             name: "id",
+//           },
+//           {
+//             type: "input",
+//             message: "What is their email?",
+//             name: "email",
+//           },
+//           {
+//             type: "input",
+//             message: "What is their github?",
+//             name: "github",
+//           },
+
+//       ])
+//   }
+
+//   function example2 (){
+//     example()
+//   }
+
+//   function example3(
+// }
+// init();
