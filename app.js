@@ -96,13 +96,17 @@ const addEmployee = [
 // else {
 //   writeFile();
 // }
-
-//write data function
-function writeFile(fileName, data) {
-  console.log("indside writefile", data);
-  return fs.writeFileSync(path.join(process.cwd(), fileName), data);
+function buildFile() {
+  if (!fs.existsSync(OUTPUT_DIR)) {
+    fs.mkdirSync(OUTPUT_DIR);
+  }
+  fs.writeFileSync(outputPath, render(newTeam), "utf-8");
 }
-const expr = 0;
+//write data function
+// function writeFile(fileName, data) {
+//   console.log("indside writefile", data);
+//   return fs.writeFileSync(path.join(process.cwd(), fileName), data);
+// }
 // function to initialize program
 function init() {
   inquirer.prompt(addEmployee).then((data) => {
@@ -140,7 +144,7 @@ function init() {
         init();
       });
     } else {
-      console.log(newTeam);
+      buildFile();
     }
   });
 }
