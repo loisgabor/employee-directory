@@ -93,15 +93,17 @@ const addEmployee = [
   },
 ];
 
-// else {
-//   writeFile();
-// }
-function buildFile() {
-  if (!fs.existsSync(OUTPUT_DIR)) {
-    fs.mkdirSync(OUTPUT_DIR);
+function buildFile(newTeam) {
+  console.log(newTeam);
+  const data = render(newTeam);
+  console.log(data);
+  try {
+    fs.writeFileSync(outputPath, data);
+  } catch (err) {
+    console.error(err);
   }
-  fs.writeFileSync(outputPath, render(newTeam), "utf-8");
 }
+
 //write data function
 // function writeFile(fileName, data) {
 //   console.log("indside writefile", data);
@@ -144,16 +146,10 @@ function init() {
         init();
       });
     } else {
-      buildFile();
+      buildFile(newTeam);
     }
   });
 }
-
-// .then((data) => {
-//   console.log("inside init", data);
-//   writeFile("READMEtest.md", generateMarkdown(data));
-//   console.log("after writefile");
-// });
 
 init();
 // Write code to use inquirer to gather information about the development team members,
@@ -178,40 +174,3 @@ init();
 // for further information. Be sure to test out each class and verify it generates an
 // object with the correct structure and methods. This structure will be crucial in order
 // for the provided `render` function to work! ```
-
-// function init(){
-//   function example() {
-//       console.log("I work");
-//       inquirer.prompt([
-
-//           {
-//             type: "input",
-//             message: "What is their name?",
-//             name: "name",
-//           },
-//           {
-//             type: "input",
-//             message: "What is their ID?",
-//             name: "id",
-//           },
-//           {
-//             type: "input",
-//             message: "What is their email?",
-//             name: "email",
-//           },
-//           {
-//             type: "input",
-//             message: "What is their github?",
-//             name: "github",
-//           },
-
-//       ])
-//   }
-
-//   function example2 (){
-//     example()
-//   }
-
-//   function example3(
-// }
-// init();
